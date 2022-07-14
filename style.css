@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
+
+* {
+    font-family: 'Dosis', sans-serif;
+}
+
+body {
+    margin: 0;
+    font-size: 7vmin;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: antiquewhite;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(20, 30, 40);
+}
+
+#game-board {
+    padding: var(--cell-gap);
+    border-radius: 1vmin;
+    background-color: rgb(161, 166, 172);
+    display: grid;
+    grid-template-columns: repeat(var(--grid-size), var(--cell-size));
+    grid-template-rows: repeat(var(--grid-size), var(--cell-size));
+    gap: 2vmin;
+    position: relative;
+}
+
+.cell {
+    background-color: slategray;
+    border-radius: 1vmin;
+}
+
+.tile {
+    --background-lightness : 30%;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border-radius: 1vmin;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blueviolet;
+    top: calc(var(--cell-gap) + (var(--y) * (var(--cell-size) + var(--cell-gap))));
+    left: calc(var(--cell-gap) + (var(--x) * (var(--cell-size) + var(--cell-gap))));
+    font-weight: bold;
+    background-color: hsl(200, 50%, var(--background-lightness));
+    color: hsl(200, 25%, var(--text-lightness));
+    animation: show 200ms ease-in-out;
+    transition: 150ms ease-in-out;
+}
+
+@keyframes show {
+    0% {
+        opacity: .5;
+        transform: scale(0);
+    }
+}
