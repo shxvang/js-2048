@@ -13,6 +13,25 @@ export default class Grid {
             return new Cell(cellELement,index%GRID_SIZE,Math.floor(index/GRID_SIZE))
         });
     }
+    get cells(){
+        return this.#cells;
+    }
+    get cellByRow(){
+        return this.#cells.reduce((cellGrid,cell)=>{
+            cellGrid[cell.y]= cellGrid[cell.y] || []
+            cellGrid[cell.y][cell.x] = cell
+            return cellGrid;
+        },[])
+
+    }
+    get cellByCol(){
+        return this.#cells.reduce((cellGrid,cell)=>{
+            cellGrid[cell.x]= cellGrid[cell.x] || []
+            cellGrid[cell.x][cell.y] = cell
+            return cellGrid;
+        },[])
+
+    }
     // returns an array consisting all the empty cell objs(with their respective position)
     get #emptyCells(){
         return this.#cells.filter( cell => cell.tile == null)
@@ -29,6 +48,7 @@ class Cell{
     #x
     #y
     #tile
+    #mergeTile
     constructor(cellElement , x, y){
         // col position
         this.#x =x;
@@ -36,11 +56,41 @@ class Cell{
         this.#y=y;
         this.#cellElement = cellElement;
     }
-    // set tile(){
+    get x(){
+        return this.#x;
+    }
 
-    // }
+    get y(){
+        return this.#y;
+    }
+    get mergeTile(){
+        return this.#mergeTile;
+    }
+    set mergeTile(value){
+        this.#mergeTile = value;
+        if(value == null) return
+        this.#mergeTile.x = this.#x;
+        this.#mergeTile.y = this.#y;
+    }
+    
+    set tile(value){
+        this.#tile = value;
+        if(value==null) return ;
+        this.#tile.x=this.#x;
+        this.#tile.y= this.#y;
+
+    }
     get tile(){
         return this.#tile
+    }
+    canAccept(tile){
+        return this.tile == null || (this.mergeTile == null && this.tile.value === tile.value)
+    }
+    mergeTiles(){
+        if(this.tile == null || this.mergeTile == null) return
+        this.tile.value += this.mergeTile.value;
+        this.mergeTile.remove()
+        this.mergeTile=null;
     }
 }
 // appends cells in game-board and returns cells array consisting each cellELement
