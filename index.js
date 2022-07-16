@@ -37,18 +37,19 @@ async function handleInput(e) {
             await moveLeft();
             break;
         case "ArrowRight": 
-        // if (!canMoveRight) {
-        //     setupInput()
-        //     return
-        // }
+        //  // }
             await moveRight();
             break;
         default: setupInput();
             return;
     }
     grid.cells.forEach(cell => cell.mergeTiles())
-    const newTile = new Tile(gameBoard);
-    grid.randomEmptyCell().tile = newTile;
+    if(!grid.randomEmptyCell()){
+        alert("GameOver");
+         
+    }
+    grid.randomEmptyCell().tile = new Tile(gameBoard);
+    
     setupInput();
 }
 function moveUp() {
