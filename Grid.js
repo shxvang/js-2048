@@ -1,7 +1,15 @@
-const CELL_SIZE = 20;
+const CELL_SIZE = 18;
 const GRID_SIZE = 4;
 const CELL_GAP = 2;
 
+let score = 0;
+let highScore = JSON.parse(localStorage.getItem('highScore'))
+highScore = highScore || score;
+
+
+const scoreBoard = document.querySelector("#score");
+const hScoreBoard = document.querySelector("#highscore")
+hScoreBoard.innerText=highScore;
 export default class Grid {
     #cells
     constructor(gridElement) {
@@ -89,6 +97,8 @@ class Cell{
     mergeTiles(){
         if(this.tile == null || this.mergeTile == null) return
         this.tile.value += this.mergeTile.value;
+        score+= this.tile.value;
+        setScore(score);
         this.mergeTile.remove()
         this.mergeTile=null;
     }
@@ -103,4 +113,15 @@ function createCellElements(gridElement){
         gridElement.append(cell);
     }
     return cells;
+}
+function setScore(score){
+    if(highScore<score){
+        setHighscore(score)
+    }
+    scoreBoard.innerText= score;
+}
+function setHighscore(score){
+    hScoreBoard.innerText=score;
+    highScore = score;
+    localStorage.setItem('highScore', JSON.stringify(highScore))
 }

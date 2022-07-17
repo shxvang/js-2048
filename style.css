@@ -16,6 +16,31 @@ body {
     background-color: rgb(20, 30, 40);
 }
 
+.userInput{
+    background-color: rgb(20, 30, 40);
+    height: 100vh;
+}
+#game-div{
+    opacity: 0;
+    width: 100vw;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    color: antiquewhite;
+    transition: 150ms ease-in-out;
+
+}
+.inputDiv{
+    margin-top : 40vmax;
+    transition: 150ms ease-in-out;
+
+}
+.tryAgain{
+    border-radius: 1.5vmin;
+    font-size: 5vmin;
+}
 #game-board {
     padding: var(--cell-gap);
     border-radius: 1vmin;
@@ -50,7 +75,19 @@ body {
     animation: show 200ms ease-in-out;
     transition: 150ms ease-in-out;
 }
+#game-name{
+    writing-mode: vertical-lr;
+  text-orientation: mixed;
+}
+#scoreboard{
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5vmin;
+
+}
 @keyframes show {
     0% {
         opacity: .5;

@@ -7,7 +7,6 @@ const grid = new Grid(gameBoard);
 //initial two tiles creation 
 grid.randomEmptyCell().tile = new Tile(gameBoard);
 grid.randomEmptyCell().tile = new Tile(gameBoard);
-setupInput();
 // function to setInput using an Event Listener 
 function setupInput() {
     window.addEventListener("keydown", handleInput, { once: true })
@@ -15,40 +14,56 @@ function setupInput() {
 
 async function handleInput(e) {
     switch (e.key) {
-        case "ArrowUp": 
-        // if (!canMoveUp) {
-        //     setupInput()
-        //     return
-        // }
+        case "ArrowUp":
+            if (!canMoveUp) {
+                console.log("no up")
+                setupInput()
+                return
+            }
             await moveUp();
             break;
-        case "ArrowDown": 
-        // if (!canMoveDown) {
-        //     setupInput()
-        //     return
-        // }
+        case "ArrowDown":
+            if (!canMoveDown) {
+                console.log("no down")
+                setupInput()
+                return
+            }
             await moveDown();
             break;
-        case "ArrowLeft": 
-        // if (!canMoveLeft) {
-        //     setupInput()
-        //     return
-        // }
+        case "ArrowLeft":
+            if (!canMoveLeft) {
+                console.log("no left")
+                setupInput()
+                return
+            }
             await moveLeft();
             break;
-        case "ArrowRight": 
-        //  // }
+        case "ArrowRight":
+            if (!canMoveRight) {
+                console.log("no right")
+                setupInput()
+                return
+            }
             await moveRight();
             break;
         default: setupInput();
             return;
     }
     grid.cells.forEach(cell => cell.mergeTiles())
-    if(!grid.randomEmptyCell()){
-        alert("GameOver");
-         
+    const newTile = new Tile(gameBoard)
+    if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
+
+        newTile.waitForTransition(true).then(() => {
+            tryAgain();
+        })
+
+        return
     }
-    grid.randomEmptyCell().tile = new Tile(gameBoard);
+    console.log(grid.randomEmptyCell())
+    if(grid.randomEmptyCell()){
+
+        grid.randomEmptyCell().tile = newTile;
+    }
     
     setupInput();
 }
@@ -78,7 +93,7 @@ function slideTiles(cells) {
                     lastValidCell = moveToCell; // store the cell we last moved to
                 }
                 if (lastValidCell != null) { // if the tiles moved
-                    promises.push(cell.tile.waitForTransiton())
+                    promises.push(cell.tile.waitForTransition())
                     if (lastValidCell.tile != null) {
                         lastValidCell.mergeTile = cell.tile;
                     } else {
@@ -90,15 +105,74 @@ function slideTiles(cells) {
             return promises;
         }))
 }
-// function canMoveUp(){
-//     return canMove(grid.cellByCol)
-// }
-// function canMoveDown(){
-//     return canMove(grid.cellByCol.map(col => [...col].reverse()))
-// }
-// function canMoveLeft(){
-//     return canMove(grid.cellByRow)
-// }
-// function canMoveRight(){
-//     return canMove(grid.cellByRow.map(row => [...row].reverse()))
-// }
+function canMoveUp() {
+    return canMove(grid.cellByCol)
+}
+function canMoveDown() {
+    return canMove(grid.cellByCol.map(col => [...col].reverse()))
+}
+function canMoveLeft() {
+    return canMove(grid.cellByRow)
+}
+function canMoveRight() {
+    return canMove(grid.cellByRow.map(row => [...row].reverse()))
+}
+function canMove(cells) {
+    return cells.some(group => {
+        // console.log("in can move")
+        return group.some((cell, index) => {
+            if (index === 0) return false
+            if (cell.tile == null) return false
+            const moveToCell = group[index - 1]
+            return moveToCell.canAccept(cell.tile)
+        })
+    })
+}
+
+
+
+
+
+
+
+
+const inputName = document.querySelector("#inlineFormInputGroup")
+const inputDiv = document.querySelector(".inputDiv");
+const gameDiv = document.querySelector("#game-div")
+const playerName = document.querySelector("#playerName")
+inputName.addEventListener("keypress", nameEntered)
+
+function nameEntered(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        const player = inputName.value;
+        inputDiv.style.setProperty("opacity", "0");
+        inputDiv.addEventListener('transitionend', () => {
+            inputDiv.remove();
+            playerName.innerText = `@${player}'s score`
+            gameDiv.style.setProperty("opacity", "1")
+            setupInput();
+        }, { once: true });
+    }
+}
+function tryAgain() {
+    const gameDiv = document.querySelector("#game-div")
+    gameDiv.style.setProperty("opacity", "0");
+    const gameOver = document.createElement('div')
+    const tryAgainBtn = document.createElement('button')
+    const body =  document.querySelector('body')
+    tryAgainBtn.classList.add("btn", "btn-dark","tryAgain")
+    tryAgainBtn.innerText = "You Lost, Click here to Try Again?"
+    tryAgainBtn.addEventListener("click", () => {
+        location.reload();
+    })
+    gameOver.append(tryAgainBtn)
+    gameOver.classList.add("gameOver")
+    
+    gameDiv.addEventListener('transitionend', () => {
+        gameDiv.remove();
+        body.append(gameOver);
+
+    }
+    )
+}
