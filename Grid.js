@@ -46,7 +46,9 @@ export default class Grid {
     }
     randomEmptyCell(){
         const randomIndex = Math.floor(Math.random() * this.#emptyCells.length)
-        return this.#emptyCells[randomIndex]
+        if(this.#emptyCells[randomIndex]){
+            return this.#emptyCells[randomIndex]
+        }
 
     }
 }

@@ -15,10 +15,12 @@ body {
     justify-content: center;
     background-color: rgb(20, 30, 40);
 }
-
+#inlineFormInputGroup{
+    height: 7vmin;
+}
 .userInput{
     background-color: rgb(20, 30, 40);
-    height: 100vh;
+    /* height: 100vh; */
 }
 #game-div{
     opacity: 0;
@@ -32,6 +34,16 @@ body {
     transition: 150ms ease-in-out;
 
 }
+.gameOver{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    width: fit-content;
+    position: fixed;
+    opacity: 0.5;
+    background-blend-mode: exclusion;
+}
 .inputDiv{
     margin-top : 40vmax;
     transition: 150ms ease-in-out;
@@ -41,10 +53,20 @@ body {
     border-radius: 1.5vmin;
     font-size: 5vmin;
 }
+.tryAgain:hover{
+    border-color: antiquewhite;
+    color: rgb(20, 30, 40);
+    background-color: antiquewhite;
+    transition: 150ms ease-in-out;
+
+}
+.gameOver:hover{
+    opacity: 1;
+    transition: 150ms ease-in-out;
+}
 #game-board {
     padding: var(--cell-gap);
     border-radius: 1vmin;
-    background-color: rgb(161, 166, 172);
     display: grid;
     grid-template-columns: repeat(var(--grid-size), var(--cell-size));
     grid-template-rows: repeat(var(--grid-size), var(--cell-size));
@@ -53,7 +75,7 @@ body {
 }
 
 .cell {
-    background-color: slategray;
+    background-color:rgb(184, 173, 161);
     border-radius: 1vmin;
 }
 
@@ -66,12 +88,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
     top: calc(var(--cell-gap) + (var(--y) * (var(--cell-size) + var(--cell-gap))));
     left: calc(var(--cell-gap) + (var(--x) * (var(--cell-size) + var(--cell-gap))));
     font-weight: bold;
-    background-color: hsl(200, 50%, var(--background-lightness));
-    color: hsl(200, 25%, var(--text-lightness));
+    background-color: hsl(30, 50%, var(--background-lightness));
+    color: hsl(30, 25%, var(--text-lightness));
     animation: show 200ms ease-in-out;
     transition: 150ms ease-in-out;
 }
