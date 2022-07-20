@@ -1,5 +1,5 @@
 const CELL_SIZE = 18;
-const GRID_SIZE = 4;
+const GRID_SIZE = 3;
 const CELL_GAP = 2;
 
 let score = 0;
