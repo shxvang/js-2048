@@ -10,7 +10,9 @@ highScore = highScore || score;
 const scoreBoard = document.querySelector("#score");
 const hScoreBoard = document.querySelector("#highscore")
 hScoreBoard.innerText=highScore;
+// grid class
 export default class Grid {
+    // cells
     #cells
     constructor(gridElement) {
         gridElement.style.setProperty("--cell-size",`${CELL_SIZE}vmin`);
@@ -21,9 +23,12 @@ export default class Grid {
             return new Cell(cellELement,index%GRID_SIZE,Math.floor(index/GRID_SIZE))
         });
     }
+    // getter of cells 
+    //in an 1D array form
     get cells(){
         return this.#cells;
     }
+    // in 2D array form in row * col form
     get cellByRow(){
         return this.#cells.reduce((cellGrid,cell)=>{
             cellGrid[cell.y]= cellGrid[cell.y] || []
@@ -32,6 +37,7 @@ export default class Grid {
         },[])
 
     }
+    // in 2D array form in col * row form
     get cellByCol(){
         return this.#cells.reduce((cellGrid,cell)=>{
             cellGrid[cell.x]= cellGrid[cell.x] || []
@@ -44,6 +50,7 @@ export default class Grid {
     get #emptyCells(){
         return this.#cells.filter( cell => cell.tile == null)
     }
+    // returns a random empty cellElement to put tile on
     randomEmptyCell(){
         const randomIndex = Math.floor(Math.random() * this.#emptyCells.length)
         if(this.#emptyCells[randomIndex]){
@@ -54,6 +61,7 @@ export default class Grid {
 }
 // Cell consists cell positon and the cellElement 
 class Cell{
+    // cell data members 
     #cellElement
     #x
     #y
@@ -75,7 +83,7 @@ class Cell{
     }
     get mergeTile(){
         return this.#mergeTile;
-    }
+    } 
     set mergeTile(value){
         this.#mergeTile = value;
         if(value == null) return
@@ -93,6 +101,7 @@ class Cell{
     get tile(){
         return this.#tile
     }
+    // returns boolean value if theres 
     canAccept(tile){
         return this.tile == null || (this.mergeTile == null && this.tile.value === tile.value)
     }
@@ -116,6 +125,7 @@ function createCellElements(gridElement){
     }
     return cells;
 }
+
 function setScore(score){
     if(highScore<score){
         setHighscore(score)

@@ -133,7 +133,9 @@ function canMove(cells) {
 const inputName = document.querySelector("#inlineFormInputGroup")
 const inputDiv = document.querySelector(".inputDiv");
 const gameDiv = document.querySelector("#game-div")
-const playerName = document.querySelector("#playerName")
+const gameDivVisible = gameDiv;
+gameDiv.remove()
+const body = document.querySelector("body")
 inputName.addEventListener("keypress", nameEntered)
 
 function nameEntered(e) {
@@ -143,8 +145,10 @@ function nameEntered(e) {
         inputDiv.style.setProperty("opacity", "0");
         inputDiv.addEventListener('transitionend', () => {
             inputDiv.remove();
+            body.append(gameDivVisible)
+            const playerName = document.querySelector("#playerName")
             playerName.innerText = `@${player}'s score`
-            gameDiv.style.setProperty("opacity", "1")
+            gameDivVisible.style.setProperty("opacity", "1")
             setupInput();
         }, { once: true });
     }

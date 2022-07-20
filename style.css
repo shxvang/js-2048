@@ -20,7 +20,6 @@ body {
 }
 .userInput{
     background-color: rgb(20, 30, 40);
-    /* height: 100vh; */
 }
 #game-div{
     opacity: 0;
@@ -34,6 +33,12 @@ body {
     transition: 150ms ease-in-out;
 
 }
+@media only screen and (max-width:900px) {
+    #game-div{
+        flex-direction: column-reverse;
+    }
+    
+}
 .gameOver{
     display: flex;
     align-items: center;
@@ -45,7 +50,6 @@ body {
     background-blend-mode: exclusion;
 }
 .inputDiv{
-    margin-top : 40vmax;
     transition: 150ms ease-in-out;
 
 }
@@ -88,7 +92,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: blueviolet; */
     top: calc(var(--cell-gap) + (var(--y) * (var(--cell-size) + var(--cell-gap))));
     left: calc(var(--cell-gap) + (var(--x) * (var(--cell-size) + var(--cell-gap))));
     font-weight: bold;
